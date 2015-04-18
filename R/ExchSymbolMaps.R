@@ -25,7 +25,6 @@ ArcaSymbolMap <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
-    # Get the nasdaqlisted file from the NYSE FTP
     tmpfile <- tempfile()
     download.file("ftp://ftp.nysedata.com/ARCASymbolMapping/ARCASymbolMapping.txt", 
                   destfile=tmpfile, quiet=TRUE)
@@ -56,14 +55,13 @@ OpenBookSymbolMap <- local({
   }
 })
 
-# Get ARCA edge symbol mapping (GlobalOTC)
+# Get Arca Edge symbol mapping (GlobalOTC)
 #' @export
 #' @rdname SymbolMaps
 ArcaEdgeSymbolMap <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
-    # Get the nasdaqlisted file from the NYSE FTP
     tmpfile <- tempfile()
     download.file("ftp://ftp.nysedata.com/ARCAEdgeSymbolMapping/GlobalOTCSymbolMapping.txt", 
                   destfile=tmpfile, quiet=TRUE)
@@ -83,7 +81,6 @@ BatsSymbolMap <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
-    # Get the nasdaqlisted file from the NYSE FTP
     tmpfile <- tempfile()
     download.file("http://www.batstrading.com/market_data/symbol_listing/csv/",
                   destfile=tmpfile, quiet=TRUE)
@@ -205,7 +202,5 @@ nasdaqtraded <- memoise::memoise(function() {
 #' @export
 #' @rdname SymbolMaps
 otcbb <- memoise::memoise(function() {
-  tt <- tempfile(tmpdir="/dev/shm")
-  on.exit(unlink(tt), add=TRUE)
   fread("http://www.otcmarkets.com/reports/symbol_info.csv", showProgress=FALSE)
 })
