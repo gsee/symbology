@@ -4,7 +4,7 @@
 \alias{MIC}
 \title{MIC}
 \usage{
-MIC(cache.ok = TRUE, verbose = getOption("DVGS.verbose"))
+MIC(cache.ok = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{cache.ok}{TRUE by default. If FALSE, the file will be redownloaded}

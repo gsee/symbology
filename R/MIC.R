@@ -19,7 +19,7 @@
 #' @export
 MIC <- local({
   dat <- NULL
-  f <- function(cache.ok=TRUE, verbose=getOption("DVGS.verbose")) {
+  f <- function(cache.ok=TRUE, verbose=FALSE) {
     if (!is.null(dat) && isTRUE(cache.ok)) {
       if (verbose) message("Using cached MIC")
       return(dat)
@@ -27,7 +27,7 @@ MIC <- local({
     if (verbose) message("Building MIC")
     xls <- tempfile()
     download.file("http://www.swift.com/customforms/downloads/ISO10383_MIC.xls",
-                  destfile=xls, quiet=TRUE)
+                  destfile=xls, quiet=TRUE, mode="wb")
     dat <<- as.data.table(read.xls(xls=xls, sheet=3, stringsAsFactors=FALSE, 
                            check.names=FALSE))
     dat

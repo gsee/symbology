@@ -114,7 +114,7 @@ NyseSymbolMap <- local({
     } else tempfile()
     on.exit(unlink(tmpfile))
     download.file("ftp://ftp.nysedata.com/NYSESymbolMapping/NYSESymbolMapping_NMS.txt",
-                  destfile=tmpfile, quiet=TRUE)
+                  destfile=tmpfile, quiet=TRUE, mode="wb")
     x <- fread(tmpfile, colClasses="character")
     s <- c("Symbol", "CQS_Symbol", "SymbolIndexNumber", "NYSEMarket", 
            "ListedMarket", "TickerDesignation", "UOT", "PriceScaleCode", 
@@ -137,14 +137,14 @@ NyseGroupSymbols <- local({
     } else tempfile()
     on.exit(unlink(tmpfile))
     download.file("ftp://ftp.nysedata.com/PublicData/NYSEGroupSymbols/NYSEGroupSymbols.txt", 
-                  destfile=tmpfile, quiet=TRUE)
+                  destfile=tmpfile, quiet=TRUE, mode="wb")
     fread(tmpfile, header=FALSE)
   }
 })
 
 #' @export
 #' @rdname SymbolMaps
-shortSaleRuleStocks <- memoise::memoise(function(trade.date=ptd(ntd())) {
+shortSaleRuleStocks <- memoise::memoise(function(trade.date=Sys.Date()) {
   tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
                    file.info("/dev/shm")$isdir) {
       tempfile(tmpdir="/dev/shm")
@@ -177,7 +177,7 @@ otclist <- memoise::memoise(function() {
   } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/otclist.txt", tt,
-                quiet=TRUE)
+                quiet=TRUE, mode="wb")
   dat <- fread(tt, colClasses=c(`Test Issue`="character"))
   dat[-nrow(dat)] # remove footer
 })

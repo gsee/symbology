@@ -11,7 +11,6 @@ BatsSymbolMap()
 
 nasdaqtraded()
 nasdaqlisted()
-otherlisted()
 otclist()
 otcbb()
 
