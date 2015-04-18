@@ -7,7 +7,7 @@ Author: Garrett See
 Maintainer: Garrett See <gsee000@gmail.com>
 Description: R functions to download symbol mapping files from the ftps of
   U.S. equity exchanges.
-License: WTFPL
+License: file LICENSE
 Depends:
     data.table
 Imports: 
