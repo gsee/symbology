@@ -25,7 +25,11 @@ ArcaSymbolMap <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
-    tmpfile <- tempfile()
+    tmpfile <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+      tempfile(tmpdir="/dev/shm")
+    } else tempfile()
+    on.exit(unlink(tmpfile))
     download.file("ftp://ftp.nysedata.com/ARCASymbolMapping/ARCASymbolMapping.txt", 
                   destfile=tmpfile, quiet=TRUE)
     x <- fread(tmpfile)
@@ -62,7 +66,11 @@ ArcaEdgeSymbolMap <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
-    tmpfile <- tempfile()
+    tmpfile <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+      tempfile(tmpdir="/dev/shm")
+    } else tempfile()
+    on.exit(unlink(tmpfile))
     download.file("ftp://ftp.nysedata.com/ARCAEdgeSymbolMapping/GlobalOTCSymbolMapping.txt", 
                   destfile=tmpfile, quiet=TRUE)
     x <- fread(tmpfile)
@@ -81,7 +89,11 @@ BatsSymbolMap <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
-    tmpfile <- tempfile()
+    tmpfile <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+      tempfile(tmpdir="/dev/shm")
+    } else tempfile()
+    on.exit(unlink(tmpfile))
     download.file("http://www.batstrading.com/market_data/symbol_listing/csv/",
                   destfile=tmpfile, quiet=TRUE)
     dat <<- fread(tmpfile)
@@ -96,7 +108,11 @@ NyseSymbolMap <- local({
   function(cache.ok=TRUE) {
     if (isTRUE(cache.ok) & !is.null(dat)) return(dat)
     # Get NYSE symbol mapping
-    tmpfile <- tempfile()
+    tmpfile <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+      tempfile(tmpdir="/dev/shm")
+    } else tempfile()
+    on.exit(unlink(tmpfile))
     download.file("ftp://ftp.nysedata.com/NYSESymbolMapping/NYSESymbolMapping_NMS.txt",
                   destfile=tmpfile, quiet=TRUE)
     x <- fread(tmpfile, colClasses="character")
@@ -115,8 +131,13 @@ NyseGroupSymbols <- local({
   dat <- NULL
   function(cache.ok=TRUE) {
     if (cache.ok & !is.null(dat)) return(dat)
-    tmpfile <- tempfile()
-    download.file("ftp://ftp.nysedata.com/PublicData/NYSEGroupSymbols/NYSEGroupSymbols.txt", destfile=tmpfile, quiet=TRUE)
+    tmpfile <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+      tempfile(tmpdir="/dev/shm")
+    } else tempfile()
+    on.exit(unlink(tmpfile))
+    download.file("ftp://ftp.nysedata.com/PublicData/NYSEGroupSymbols/NYSEGroupSymbols.txt", 
+                  destfile=tmpfile, quiet=TRUE)
     fread(tmpfile, header=FALSE)
   }
 })
@@ -124,7 +145,10 @@ NyseGroupSymbols <- local({
 #' @export
 #' @rdname SymbolMaps
 shortSaleRuleStocks <- memoise::memoise(function(trade.date=ptd(ntd())) {
-  tt <- tempfile()
+  tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+      tempfile(tmpdir="/dev/shm")
+    } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file(paste0("ftp://ftp.nasdaqtrader.com/SymbolDirectory/",
                        "shorthalts/shorthalts",
@@ -138,14 +162,19 @@ shortSaleRuleStocks <- memoise::memoise(function(trade.date=ptd(ntd())) {
 #' @export
 #' @rdname SymbolMaps
 NYSEHolidays <- memoise::memoise(function() {
-  read.delim(text=readLines("ftp://ftp.nysedata.com/PublicData/NYSEHolidays/NYSEHolidays.txt"), sep="|", header=FALSE, stringsAsFactors=FALSE)
+  as.data.table(read.delim(text=readLines(
+    "ftp://ftp.nysedata.com/PublicData/NYSEHolidays/NYSEHolidays.txt"), sep="|", 
+    header=FALSE, stringsAsFactors=FALSE))
 })
 
 
 #' @export
 #' @rdname SymbolMaps
 otclist <- memoise::memoise(function() {
-  tt <- tempfile(tmpdir = "/dev/shm")
+  tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+    tempfile(tmpdir="/dev/shm")
+  } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/otclist.txt", tt,
                 quiet=TRUE)
@@ -158,7 +187,10 @@ otclist <- memoise::memoise(function() {
 #' @export
 #' @rdname SymbolMaps
 mpidlist <- memoise::memoise(function() {
-  tt <- tempfile(tmpdir = "/dev/shm")
+  tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+    tempfile(tmpdir="/dev/shm")
+  } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/mpidlist.txt", tt,
                 quiet=TRUE)
@@ -169,7 +201,10 @@ mpidlist <- memoise::memoise(function() {
 #' @export
 #' @rdname SymbolMaps
 otherlisted <- memoise::memoise(function() {
-  tt <- tempfile(tmpdir = "/dev/shm")
+  tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+    tempfile(tmpdir="/dev/shm")
+  } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/otherlisted.txt", 
                 tt, quiet=TRUE)
@@ -180,7 +215,10 @@ otherlisted <- memoise::memoise(function() {
 #' @export
 #' @rdname SymbolMaps
 nasdaqlisted <- memoise::memoise(function() {
-  tt <- tempfile(tmpdir = "/dev/shm")
+  tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+    tempfile(tmpdir="/dev/shm")
+  } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqlisted.txt", 
                 tt, quiet=TRUE)
@@ -191,7 +229,10 @@ nasdaqlisted <- memoise::memoise(function() {
 #' @export
 #' @rdname SymbolMaps
 nasdaqtraded <- memoise::memoise(function() {
-  tt <- tempfile(tmpdir = "/dev/shm")
+  tt <- if (.Platform$OS.type == "unix" && file.exists("/dev/shm") && 
+                   file.info("/dev/shm")$isdir) {
+    tempfile(tmpdir="/dev/shm")
+  } else tempfile()
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/nasdaqtraded.txt", 
                 tt, quiet=TRUE)
