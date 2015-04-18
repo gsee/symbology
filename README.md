@@ -23,6 +23,13 @@ MIC()
 NYSEHolidays()
 ````
 
+These functions use memoization to cache results so that the next time they are
+called the results can be returned from memory.  Some of the functions (the
+ones that begin with a lowercase letter for the most part) accomplish this using 
+the [memoise](https://github.com/hadley/memoise) package.  You can view the 
+source code of those functions like this, for example: 
+`environment(nasdaqlisted)$f`.
+
 References:  
 [ftp://ftp.nysedata.com](ftp://ftp.nysedata.com)  
 [http://www.batstrading.com/market_data/symbol_listing/csv/](http://www.batstrading.com/market_data/symbol_listing/csv/)  
