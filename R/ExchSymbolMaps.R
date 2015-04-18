@@ -149,7 +149,7 @@ otclist <- memoise::memoise(function() {
   on.exit(unlink(tt), add=TRUE)
   download.file("ftp://ftp.nasdaqtrader.com/SymbolDirectory/otclist.txt", tt,
                 quiet=TRUE)
-  dat <- fread(tt)
+  dat <- fread(tt, colClasses=c(`Test Issue`="character"))
   dat[-nrow(dat)] # remove footer
 })
 # otclist()[, .N, by=`Market Category`]

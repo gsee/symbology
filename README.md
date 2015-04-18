@@ -28,7 +28,10 @@ called the results can be returned from memory.  Some of the functions (the
 ones that begin with a lowercase letter for the most part) accomplish this using 
 the [memoise](https://github.com/hadley/memoise) package.  You can view the 
 source code of those functions like this, for example: 
-`environment(nasdaqlisted)$f`.
+`environment(nasdaqlisted)$f`.  `memoise::forget(nasdaqlisted)` would force 
+`nasdaqlisted()` to re-download the data the next time it is called.  The other
+functions have a `cache.ok` argument.  For example, 
+`ArcaSymbolMap(cache.ok=FALSE)` will force a download of the file.
 
 References:  
 [ftp://ftp.nysedata.com](ftp://ftp.nysedata.com)  
