@@ -38,3 +38,7 @@ References:
 [http://www.batstrading.com/market_data/symbol_listing/csv/](http://www.batstrading.com/market_data/symbol_listing/csv/)  
 [ftp://ftp.nasdaqtrader.com](ftp://ftp.nasdaqtrader.com)  
 [http://www.otcmarkets.com/reports/symbol_info.csv](http://www.otcmarkets.com/reports/symbol_info.csv)  
+[ISO 10383](http://www.iso15022.org/MIC/homepageMIC.htm)  
+
+See also:  
+The [stockSymbols](https://github.com/joshuaulrich/TTR/blob/master/R/WebData.R) function from the [TTR package](https://github.com/joshuaulrich/TTR)
