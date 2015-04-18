@@ -8,4 +8,9 @@ Maintainer: Garrett See <gsee000@gmail.com>
 Description: R functions to download symbol mapping files from the ftps of
   U.S. equity exchanges.
 License: WTFPL
-Imports: memoise, data.table, XML, gdata
+Depends:
+    data.table
+Imports: 
+    memoise, 
+    XML, 
+    gdata
