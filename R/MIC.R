@@ -26,7 +26,7 @@ MIC <- local({
     }
     if (verbose) message("Building MIC")
     xls <- tempfile()
-    download.file("http://www.swift.com/customforms/downloads/ISO10383_MIC.xls",
+    download.file("http://www.iso15022.org/MIC/ISO10383_MIC.xls",
                   destfile=xls, quiet=TRUE, mode="wb")
     dat <<- as.data.table(read.xls(xls=xls, sheet=3, stringsAsFactors=FALSE, 
                            check.names=FALSE))

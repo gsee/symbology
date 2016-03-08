@@ -1,8 +1,8 @@
 Package: symbology
 Type: Package
 Title: symbol mapping file downloaders
-Version: 0.0.1
-Date: 2015-04-17
+Version: 0.0.2
+Date: 2016-03-08
 Author: Garrett See
 Maintainer: Garrett See <gsee000@gmail.com>
 Description: R functions to download symbol mapping files from the ftps of
